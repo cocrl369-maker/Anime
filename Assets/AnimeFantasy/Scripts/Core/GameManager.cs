@@ -13,11 +13,15 @@ namespace AnimeFantasy
         public static GameManager Instance { get; private set; }
         public SaveData Save { get; private set; }
 
+        /// <summary>Ebene für modale Fenster über allem.</summary>
+        public Transform Overlay => safeArea;
+
         RectTransform canvasRoot;
         RectTransform safeArea;
         Image background;
         Sprite backgroundSprite;
         GameObject currentScreen;
+        int goldReward;
         Rect lastSafeArea;
 
         void Awake()
@@ -58,7 +62,7 @@ namespace AnimeFantasy
             // Android-Zurück-Taste: im Kampf ins Menü, im Menü beenden
             if (BackPressed())
             {
-                if (currentScreen != null && currentScreen.GetComponent<BattleView>() != null) ShowMenu();
+                if (currentScreen != null && currentScreen.GetComponent<MenuView>() == null) ShowMenu();
                 else Application.Quit();
             }
         }
@@ -134,6 +138,41 @@ namespace AnimeFantasy
             NewScreen("MenuScreen").AddComponent<MenuView>().Build(this);
         }
 
+        public void ShowMap()
+        {
+            NewScreen("MapScreen").AddComponent<MapView>().Build(this);
+        }
+
+        public void ShowShop()
+        {
+            NewScreen("ShopScreen").AddComponent<ShopView>().Build(this);
+        }
+
+        /// <summary>Kapitel betreten: beim ersten Mal erst die Story, dann der Kampf.</summary>
+        public void EnterChapter(int stageIndex, bool replay)
+        {
+            var intro = GameDatabase.GetIntro(stageIndex);
+            if (!replay && intro != null && Save.introsSeen <= stageIndex)
+            {
+                Save.introsSeen = stageIndex + 1;
+                SaveSystem.Save(Save);
+                ShowStory(intro, stageIndex, () => StartBattle(stageIndex, false));
+            }
+            else
+            {
+                StartBattle(stageIndex, replay);
+            }
+        }
+
+        void ShowStory(StoryLine[] lines, int stageIndex, System.Action then)
+        {
+            int bonus;
+            var stage = GameDatabase.GetStage(stageIndex, out bonus);
+            SetBackground(stage.SkyTop, stage.SkyBottom);
+            NewScreen("StoryScreen").AddComponent<DialogueView>()
+                .Build(lines, "Kapitel " + (stageIndex + 1) + ": " + stage.Name, then);
+        }
+
         public void NewGame()
         {
             Save = SaveSystem.Reset();
@@ -145,9 +184,7 @@ namespace AnimeFantasy
             int levelBonus;
             var stage = GameDatabase.GetStage(stageIndex, out levelBonus);
 
-            var party = GameDatabase.HeroIds
-                .Select(id => new BattleUnit(GameDatabase.GetCharacter(id), Save.GetHero(id).level, true))
-                .ToList();
+            var party = GameDatabase.HeroIds.Select(id => GameDatabase.CreateHero(Save, id)).ToList();
             var enemies = stage.Enemies
                 .Select(id => new BattleUnit(GameDatabase.GetCharacter(id), stage.EnemyLevel + levelBonus, false))
                 .ToList();
@@ -161,6 +198,7 @@ namespace AnimeFantasy
                 ? "Training: " + stage.Name
                 : "Kapitel " + (stageIndex + 1) + ": " + stage.Name;
 
+            goldReward = enemies.Sum(e => GameDatabase.GoldFor(e));
             controller.Begin(view, stage, title, party, enemies,
                 (victory, xp) => OnBattleFinished(view, stageIndex, training, victory, xp));
         }
@@ -170,25 +208,31 @@ namespace AnimeFantasy
             Time.timeScale = 1f;
             if (victory)
             {
+                int gold = goldReward;
+                Save.gold += gold;
                 var messages = Progression.AddXp(Save, xp);
                 bool newChapter = !training && stageIndex >= Save.stage;
                 if (newChapter) Save.stage = stageIndex + 1;
                 SaveSystem.Save(Save);
 
-                string body = "Erhaltene EP: " + xp;
+                string body = "Erhaltene EP: " + xp + "\nGold: +" + gold + " G";
                 if (messages.Count > 0) body += "\n\n" + string.Join("\n", messages.ToArray());
                 if (newChapter && Save.stage % GameDatabase.StageCount == 0)
                     body += "\n\nDie Dunkelfürstin ist besiegt!\nEin noch härterer Durchlauf beginnt ...";
 
+                var outro = newChapter ? GameDatabase.GetOutro(stageIndex) : null;
                 UIFactory.ShowModal(view.transform, "Sieg!", body,
-                    "Weiter", () => StartBattle(Save.stage, false),
-                    "Menü", () => ShowMenu());
+                    "Weiter", () =>
+                    {
+                        if (outro != null) ShowStory(outro, stageIndex, ShowMap);
+                        else ShowMap();
+                    });
             }
             else
             {
                 UIFactory.ShowModal(view.transform, "Niederlage", "Deine Gruppe wurde besiegt.\nTrainiere und versuche es erneut!",
                     "Nochmal", () => StartBattle(stageIndex, training),
-                    "Menü", () => ShowMenu());
+                    "Weltkarte", () => ShowMap());
             }
         }
     }

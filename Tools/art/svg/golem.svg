@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs>
+  <radialGradient id="golem-bg" cx="50%" cy="40%" r="65%">
+    <stop offset="0%" stop-color="#3a5aa8"/><stop offset="100%" stop-color="#0a0c24"/>
+  </radialGradient>
+  <linearGradient id="golem-iris" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#000"/><stop offset="100%" stop-color="#000"/>
+  </linearGradient>
+  <linearGradient id="golem-skin" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#ffe3d3"/><stop offset="100%" stop-color="#f6c4b0"/>
+  </linearGradient>
+  <clipPath id="golem-circle"><circle cx="256" cy="256" r="250"/></clipPath>
+</defs><g clip-path="url(#golem-circle)"><rect width="512" height="512" fill="url(#golem-bg)"/><path d="M80,90 Q80,110 100,110 Q80,110 80,130 Q80,110 60,110 Q80,110 80,90Z" fill="#ffe0a0" opacity="0.8"/><path d="M430,136 Q430,150 444,150 Q430,150 430,164 Q430,150 416,150 Q430,150 430,136Z" fill="#ffe0a0" opacity="0.8"/><path d="M110,388 Q110,400 122,400 Q110,400 110,412 Q110,400 98,400 Q110,400 110,388Z" fill="#ffe0a0" opacity="0.8"/><path d="M420,362 Q420,380 438,380 Q420,380 420,398 Q420,380 402,380 Q420,380 420,362Z" fill="#ffe0a0" opacity="0.8"/><path d="M390,60 Q390,70 400,70 Q390,70 390,80 Q390,70 380,70 Q390,70 390,60Z" fill="#ffe0a0" opacity="0.8"/><path d="M60,512 L90,380 L180,340 L332,340 L422,380 L452,512Z" fill="#6e5a46"/><path d="M150,330 L130,170 L190,100 L320,100 L382,170 L362,330 L300,370 L212,370Z" fill="#8b735a"/><path d="M150,330 L130,170 L190,100 L210,120 L170,180 L182,320Z" fill="#a38a6e"/><path d="M220,150 L240,190 L226,230 M330,260 L300,290 L310,320 M160,400 L200,440 M360,420 L330,470" stroke="#4a3a2c" stroke-width="5" fill="none"/><rect x="172" y="220" width="64" height="26" rx="6" fill="#2a2018"/><rect x="276" y="220" width="64" height="26" rx="6" fill="#2a2018"/><rect x="184" y="226" width="40" height="14" rx="5" fill="#ffb84a"/><rect x="288" y="226" width="40" height="14" rx="5" fill="#ffb84a"/><rect x="214" y="300" width="84" height="16" rx="4" fill="#2a2018"/><path d="M244,120 L256,80 L268,120 L256,140Z" fill="#7ad7ff" stroke="#d8f6ff" stroke-width="3"/><path d="M100,420 L112,384 L126,420 L112,436Z M396,430 L410,394 L422,432 L408,446Z" fill="#7ad7ff" stroke="#d8f6ff" stroke-width="2"/></g>
+<circle cx="256" cy="256" r="247" fill="none" stroke="#c8a878" stroke-width="8"/>
+<circle cx="256" cy="256" r="239" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="2"/></svg>

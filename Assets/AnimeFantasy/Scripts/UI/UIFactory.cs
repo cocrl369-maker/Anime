@@ -153,7 +153,7 @@ namespace AnimeFantasy
             fitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
             fitter.aspectRatio = 1f;
 
-            var art = Resources.Load<Sprite>("Portraits/" + data.Id);
+            var art = LoadPortrait(data.Id);
             if (art != null)
             {
                 img.sprite = art;
@@ -173,6 +173,68 @@ namespace AnimeFantasy
             }
             img.color = baseColor;
             return img;
+        }
+
+        static readonly System.Collections.Generic.Dictionary<string, Sprite> portraitCache =
+            new System.Collections.Generic.Dictionary<string, Sprite>();
+
+        /// <summary>
+        /// Lädt Resources/Portraits/&lt;id&gt;. Funktioniert unabhängig vom Import-Typ (Sprite oder Default-Textur).
+        /// </summary>
+        public static Sprite LoadPortrait(string id)
+        {
+            Sprite sprite;
+            if (portraitCache.TryGetValue(id, out sprite)) return sprite;
+            sprite = Resources.Load<Sprite>("Portraits/" + id);
+            if (sprite == null)
+            {
+                var tex = Resources.Load<Texture2D>("Portraits/" + id);
+                if (tex != null)
+                    sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100f);
+            }
+            portraitCache[id] = sprite;
+            return sprite;
+        }
+
+        /// <summary>Senkrecht scrollbare Liste. Kinder brauchen ein LayoutElement mit preferredHeight.</summary>
+        public static RectTransform CreateScrollList(Transform parent, float spacing)
+        {
+            var viewport = CreateRect("Viewport", parent);
+            viewport.Stretch(0, 0, 1, 1);
+            viewport.gameObject.AddComponent<RectMask2D>();
+            var img = viewport.gameObject.AddComponent<Image>();
+            img.color = new Color(0, 0, 0, 0.001f); // fängt Wisch-Gesten ab
+
+            var content = CreateRect("Content", viewport);
+            content.anchorMin = new Vector2(0, 1);
+            content.anchorMax = new Vector2(1, 1);
+            content.pivot = new Vector2(0.5f, 1);
+            content.offsetMin = content.offsetMax = Vector2.zero;
+            var v = content.gameObject.AddComponent<VerticalLayoutGroup>();
+            v.spacing = spacing;
+            v.childControlWidth = true;
+            v.childControlHeight = true;
+            v.childForceExpandWidth = true;
+            v.childForceExpandHeight = false;
+            var fitter = content.gameObject.AddComponent<ContentSizeFitter>();
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+            var scroll = viewport.gameObject.AddComponent<ScrollRect>();
+            scroll.content = content;
+            scroll.viewport = viewport;
+            scroll.horizontal = false;
+            scroll.vertical = true;
+            scroll.movementType = ScrollRect.MovementType.Elastic;
+            scroll.scrollSensitivity = 30f;
+            return content;
+        }
+
+        public static void SetPreferredHeight(Component c, float height)
+        {
+            var le = c.gameObject.GetComponent<LayoutElement>();
+            if (le == null) le = c.gameObject.AddComponent<LayoutElement>();
+            le.preferredHeight = height;
+            le.minHeight = height;
         }
 
         /// <summary>Modales Fenster mit Titel, Text und Buttons. Blockiert Eingaben dahinter.</summary>

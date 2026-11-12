@@ -10,6 +10,21 @@ namespace AnimeFantasy
         public string id;
         public int level = 1;
         public int xp;
+        public string weapon;
+        public string armor;
+        public string accessory;
+
+        public string Get(EquipSlot slot)
+        {
+            return slot == EquipSlot.Weapon ? weapon : slot == EquipSlot.Armor ? armor : accessory;
+        }
+
+        public void Set(EquipSlot slot, string id)
+        {
+            if (slot == EquipSlot.Weapon) weapon = id;
+            else if (slot == EquipSlot.Armor) armor = id;
+            else accessory = id;
+        }
     }
 
     [Serializable]
@@ -17,7 +32,26 @@ namespace AnimeFantasy
     {
         /// <summary>Index des nächsten (noch nicht geschafften) Kapitels.</summary>
         public int stage;
+        public int gold = 50;
+        /// <summary>Anzahl der Kapitel, deren Intro schon gezeigt wurde.</summary>
+        public int introsSeen;
+        public List<string> ownedItems = new List<string>();
         public List<HeroProgress> heroes = new List<HeroProgress>();
+
+        public bool Owns(string itemId) => ownedItems.Contains(itemId);
+
+        /// <summary>Welcher Held trägt das Item gerade? (null = niemand)</summary>
+        public HeroProgress WornBy(ItemData item)
+        {
+            return heroes.Find(h => h.Get(item.Slot) == item.Id);
+        }
+
+        public void Equip(string heroId, ItemData item)
+        {
+            var current = WornBy(item);
+            if (current != null) current.Set(item.Slot, null);
+            GetHero(heroId).Set(item.Slot, item.Id);
+        }
 
         public HeroProgress GetHero(string id)
         {

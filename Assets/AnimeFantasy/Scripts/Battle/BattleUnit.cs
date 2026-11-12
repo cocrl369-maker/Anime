@@ -36,6 +36,13 @@ namespace AnimeFantasy
             Spd = Mathf.RoundToInt(data.Spd * m);
         }
 
+        public void ApplyBonus(ItemData item)
+        {
+            MaxHp += item.Hp; Hp = MaxHp;
+            MaxMp += item.Mp; Mp = MaxMp;
+            Atk += item.Atk; Def += item.Def; Mag += item.Mag; Spd += item.Spd;
+        }
+
         public string Name => Data.Name;
         public bool IsAlive => Hp > 0;
         public bool BurstReady => IsPlayer && IsAlive && Burst >= 100 && !string.IsNullOrEmpty(Data.BurstSkill);

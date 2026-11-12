@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs>
+  <radialGradient id="kobold-bg" cx="50%" cy="40%" r="65%">
+    <stop offset="0%" stop-color="#5a2a7a"/><stop offset="100%" stop-color="#0a0412"/>
+  </radialGradient>
+  <linearGradient id="kobold-iris" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#000"/><stop offset="100%" stop-color="#000"/>
+  </linearGradient>
+  <linearGradient id="kobold-skin" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#ffe3d3"/><stop offset="100%" stop-color="#f6c4b0"/>
+  </linearGradient>
+  <clipPath id="kobold-circle"><circle cx="256" cy="256" r="250"/></clipPath>
+</defs><g clip-path="url(#kobold-circle)"><rect width="512" height="512" fill="url(#kobold-bg)"/><path d="M80,90 Q80,110 100,110 Q80,110 80,130 Q80,110 60,110 Q80,110 80,90Z" fill="#b98cff" opacity="0.8"/><path d="M430,136 Q430,150 444,150 Q430,150 430,164 Q430,150 416,150 Q430,150 430,136Z" fill="#b98cff" opacity="0.8"/><path d="M110,388 Q110,400 122,400 Q110,400 110,412 Q110,400 98,400 Q110,400 110,388Z" fill="#b98cff" opacity="0.8"/><path d="M420,362 Q420,380 438,380 Q420,380 420,398 Q420,380 402,380 Q420,380 420,362Z" fill="#b98cff" opacity="0.8"/><path d="M390,60 Q390,70 400,70 Q390,70 390,80 Q390,70 380,70 Q390,70 390,60Z" fill="#b98cff" opacity="0.8"/><path d="M90,512 C100,400 160,330 256,330 C352,330 412,400 422,512Z" fill="#241634"/><path d="M150,250 L40,190 L160,300Z" fill="#6f8a5a"/><path d="M362,250 L472,190 L352,300Z" fill="#6f8a5a"/><path d="M150,255 L70,205 L158,290Z" fill="#c28a8a" opacity="0.5"/><path d="M362,255 L442,205 L354,290Z" fill="#c28a8a" opacity="0.5"/><ellipse cx="256" cy="290" rx="110" ry="100" fill="#7f9c66"/><path d="M120,330 C100,190 170,90 256,70 C342,90 412,190 392,330 C380,250 340,200 256,196 C172,200 132,250 120,330Z" fill="#2c1a40"/><path d="M256,70 C280,40 320,30 340,40 C310,50 290,70 280,92Z" fill="#2c1a40"/><path d="M196,262 L236,282 L196,298 Q182,282 196,262Z" fill="#ff3a4a"/><path d="M316,262 L276,282 L316,298 Q330,282 316,262Z" fill="#ff3a4a"/><circle cx="200" cy="278" r="4" fill="#fff"/><circle cx="312" cy="278" r="4" fill="#fff"/><path d="M206,340 Q256,370 306,340" stroke="#2a1a10" stroke-width="5" fill="none"/><path d="M222,346 L230,362 L238,352Z M290,346 L282,362 L274,352Z" fill="#fff"/><path d="M248,300 L256,316 L264,300" stroke="#4a5a3a" stroke-width="4" fill="none"/></g>
+<circle cx="256" cy="256" r="247" fill="none" stroke="#b98cff" stroke-width="8"/>
+<circle cx="256" cy="256" r="239" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="2"/></svg>

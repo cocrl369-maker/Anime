@@ -28,7 +28,7 @@ namespace AnimeFantasy
             {
                 var data = GameDatabase.GetCharacter(id);
                 var progress = save.GetHero(id);
-                var unit = new BattleUnit(data, progress.level, true);
+                var unit = GameDatabase.CreateHero(save, id);
 
                 var card = UIFactory.Panel(data.Name, partyRow, UIFactory.PanelColor);
                 var holder = UIFactory.CreateRect("PortraitHolder", card.transform).Stretch(0.1f, 0.50f, 0.9f, 0.97f);
@@ -54,27 +54,24 @@ namespace AnimeFantasy
             // Buttons
             int levelBonus;
             var next = GameDatabase.GetStage(save.stage, out levelBonus);
-            string continueLabel = save.stage == 0
+            string adventureLabel = save.stage == 0
                 ? "Abenteuer beginnen"
-                : "Weiter: Kapitel " + (save.stage + 1) + "\n<size=30>" + next.Name + (levelBonus > 0 ? " (+" + levelBonus + ")" : "") + "</size>";
+                : "Weltkarte\n<size=30>Nächstes Ziel: " + next.Name + (levelBonus > 0 ? " (+" + levelBonus + ")" : "") + "</size>";
 
-            var cont = UIFactory.CreateButton("Continue", root, continueLabel, new Color(0.85f, 0.35f, 0.45f),
-                () => gm.StartBattle(save.stage, false), 50);
-            ((RectTransform)cont.transform).Stretch(0.10f, 0.27f, 0.90f, 0.37f);
+            var adventure = UIFactory.CreateButton("Adventure", root, adventureLabel, new Color(0.85f, 0.35f, 0.45f),
+                () => { if (save.stage == 0) gm.EnterChapter(0, false); else gm.ShowMap(); }, 50);
+            ((RectTransform)adventure.transform).Stretch(0.10f, 0.27f, 0.90f, 0.37f);
 
-            int trainingStage = Mathf.Max(0, save.stage - 1);
-            var training = UIFactory.CreateButton("Training", root,
-                "Training\n<size=28>" + GameDatabase.GetStage(trainingStage, out levelBonus).Name + " wiederholen</size>",
-                new Color(0.30f, 0.50f, 0.75f), () => gm.StartBattle(trainingStage, true), 42);
-            ((RectTransform)training.transform).Stretch(0.10f, 0.165f, 0.90f, 0.25f);
-            training.interactable = save.stage > 0;
+            var shop = UIFactory.CreateButton("Shop", root, "Ausrüstung & Shop\n<size=28>" + save.gold + " Gold</size>",
+                new Color(0.30f, 0.50f, 0.75f), gm.ShowShop, 42);
+            ((RectTransform)shop.transform).Stretch(0.10f, 0.165f, 0.90f, 0.25f);
 
             var reset = UIFactory.CreateButton("NewGame", root, "Neues Spiel", new Color(0.30f, 0.30f, 0.42f),
                 () => UIFactory.ShowModal(root, "Neues Spiel?", "Der aktuelle Fortschritt wird gelöscht.",
                     "Löschen", () => gm.NewGame(), "Abbrechen", null), 38);
             ((RectTransform)reset.transform).Stretch(0.25f, 0.07f, 0.75f, 0.14f);
 
-            UIFactory.CreateText("Version", root, "Prototyp v0.1", 24, new Color(1f, 1f, 1f, 0.4f))
+            UIFactory.CreateText("Version", root, "Prototyp v0.2", 24, new Color(1f, 1f, 1f, 0.4f))
                 .rectTransform.Stretch(0f, 0.01f, 1f, 0.05f);
         }
     }

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs>
+  <radialGradient id="schleim-bg" cx="50%" cy="40%" r="65%">
+    <stop offset="0%" stop-color="#9fe0c0"/><stop offset="100%" stop-color="#0e4a3a"/>
+  </radialGradient>
+  <linearGradient id="schleim-iris" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#000"/><stop offset="100%" stop-color="#000"/>
+  </linearGradient>
+  <linearGradient id="schleim-skin" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#ffe3d3"/><stop offset="100%" stop-color="#f6c4b0"/>
+  </linearGradient>
+  <clipPath id="schleim-circle"><circle cx="256" cy="256" r="250"/></clipPath>
+</defs><g clip-path="url(#schleim-circle)"><rect width="512" height="512" fill="url(#schleim-bg)"/><path d="M80,90 Q80,110 100,110 Q80,110 80,130 Q80,110 60,110 Q80,110 80,90Z" fill="#e0f4ff" opacity="0.8"/><path d="M430,136 Q430,150 444,150 Q430,150 430,164 Q430,150 416,150 Q430,150 430,136Z" fill="#e0f4ff" opacity="0.8"/><path d="M110,388 Q110,400 122,400 Q110,400 110,412 Q110,400 98,400 Q110,400 110,388Z" fill="#e0f4ff" opacity="0.8"/><path d="M420,362 Q420,380 438,380 Q420,380 420,398 Q420,380 402,380 Q420,380 420,362Z" fill="#e0f4ff" opacity="0.8"/><path d="M390,60 Q390,70 400,70 Q390,70 390,80 Q390,70 380,70 Q390,70 390,60Z" fill="#e0f4ff" opacity="0.8"/><ellipse cx="256" cy="450" rx="190" ry="26" fill="#000" opacity="0.25"/><path d="M80,440 C70,330 150,180 256,150 C300,140 300,110 330,100 C320,130 330,150 350,170 C430,240 450,360 432,440 Q256,470 80,440Z" fill="#4aa8ff"/><path d="M110,420 C110,330 170,220 250,190" stroke="#bfe6ff" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.7"/><ellipse cx="200" cy="320" rx="26" ry="36" fill="#13284a"/><ellipse cx="312" cy="320" rx="26" ry="36" fill="#13284a"/><circle cx="190" cy="304" r="10" fill="#fff"/><circle cx="302" cy="304" r="10" fill="#fff"/><circle cx="208" cy="336" r="4" fill="#fff"/><circle cx="320" cy="336" r="4" fill="#fff"/><path d="M236,372 Q256,392 276,372" stroke="#13284a" stroke-width="6" fill="none" stroke-linecap="round"/><ellipse cx="160" cy="370" rx="20" ry="9" fill="#ff8fb0" opacity="0.5"/><ellipse cx="352" cy="370" rx="20" ry="9" fill="#ff8fb0" opacity="0.5"/><path d="M120,180 q10,-30 30,-10 q-10,30 -30,10Z" fill="#7fd3ff"/></g>
+<circle cx="256" cy="256" r="247" fill="none" stroke="#7fd3ff" stroke-width="8"/>
+<circle cx="256" cy="256" r="239" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="2"/></svg>
