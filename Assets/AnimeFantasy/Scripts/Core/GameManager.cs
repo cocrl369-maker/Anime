@@ -19,6 +19,7 @@ namespace AnimeFantasy
         RectTransform canvasRoot;
         RectTransform safeArea;
         Image background;
+        RectTransform starLayer;
         Sprite backgroundSprite;
         GameObject currentScreen;
         int goldReward;
@@ -102,6 +103,7 @@ namespace AnimeFantasy
         void CreateStars()
         {
             var layer = UIFactory.CreateRect("Stars", canvasRoot).Stretch(0f, 0f, 1f, 1f);
+            starLayer = layer;
             for (int i = 0; i < 45; i++)
             {
                 var star = UIFactory.CreateImage("Star", layer, new Color(1f, 1f, 1f, Random.Range(0.15f, 0.6f)), SpriteFactory.Circle);
@@ -124,9 +126,17 @@ namespace AnimeFantasy
             background.sprite = backgroundSprite;
         }
 
+        /// <summary>Im 3D-Kampf wird der 2D-Hintergrund ausgeblendet, damit die Szene sichtbar ist.</summary>
+        void SetBackgroundVisible(bool visible)
+        {
+            background.enabled = visible;
+            starLayer.gameObject.SetActive(visible);
+        }
+
         GameObject NewScreen(string name)
         {
             if (currentScreen != null) Destroy(currentScreen);
+            SetBackgroundVisible(true);
             Time.timeScale = 1f;
             var rt = UIFactory.CreateRect(name, safeArea).Stretch(0f, 0f, 1f, 1f);
             currentScreen = rt.gameObject;
@@ -189,8 +199,9 @@ namespace AnimeFantasy
                 .Select(id => new BattleUnit(GameDatabase.GetCharacter(id), stage.EnemyLevel + levelBonus, false))
                 .ToList();
 
-            SetBackground(stage.SkyTop, stage.SkyBottom);
             var screen = NewScreen("BattleScreen");
+            SetBackgroundVisible(false);
+            var stage3d = BattleStage.Create(stage, party, enemies);
             var view = screen.AddComponent<BattleView>();
             var controller = screen.AddComponent<BattleController>();
 
@@ -199,7 +210,7 @@ namespace AnimeFantasy
                 : "Kapitel " + (stageIndex + 1) + ": " + stage.Name;
 
             goldReward = enemies.Sum(e => GameDatabase.GoldFor(e));
-            controller.Begin(view, stage, title, party, enemies,
+            controller.Begin(view, stage3d, title, party, enemies,
                 (victory, xp) => OnBattleFinished(view, stageIndex, training, victory, xp));
         }
 

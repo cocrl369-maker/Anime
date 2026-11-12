@@ -41,6 +41,7 @@ namespace AnimeFantasy
         public string Name;
         public string[] Enemies;
         public int EnemyLevel;
+        public StageTheme Theme;
         public Color SkyTop;
         public Color SkyBottom;
     }

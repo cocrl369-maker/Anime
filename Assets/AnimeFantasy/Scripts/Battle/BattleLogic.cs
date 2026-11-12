@@ -15,6 +15,8 @@ namespace AnimeFantasy
         public StatusType StatusApplied = StatusType.None;
         public bool Revived;
         public bool Killed;
+        public Element Element;
+        public SkillKind Kind;
     }
 
     /// <summary>Reine Kampfregeln ohne UI: Schaden, Heilung, Ziele.</summary>
@@ -46,7 +48,7 @@ namespace AnimeFantasy
             foreach (var t in targets)
             {
                 if (!t.IsAlive && !skill.Revives) continue;
-                var r = new ActionResult { Target = t };
+                var r = new ActionResult { Target = t, Element = skill.Element, Kind = skill.Kind };
 
                 switch (skill.Kind)
                 {

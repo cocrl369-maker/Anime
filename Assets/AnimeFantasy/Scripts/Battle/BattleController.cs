@@ -22,14 +22,14 @@ namespace AnimeFantasy
         bool victory;
         int round;
 
-        public void Begin(BattleView battleView, StageData stage, string title,
+        public void Begin(BattleView battleView, BattleStage stage3d, string title,
             List<BattleUnit> heroes, List<BattleUnit> foes, Action<bool, int> finished)
         {
             view = battleView;
             party = heroes;
             enemies = foes;
             onFinished = finished;
-            view.Build(this, title, party, enemies);
+            view.Build(this, title, party, enemies, stage3d);
             StartCoroutine(Run());
         }
 
@@ -74,6 +74,7 @@ namespace AnimeFantasy
 
             view.ClearCommands();
             view.Log(victory ? "Sieg!" : "Die Gruppe ist gefallen ...");
+            if (victory) view.Victory(party);
             yield return Wait(1.0f);
 
             int xp = victory ? enemies.Sum(e => GameDatabase.XpFor(e)) : 0;
@@ -202,7 +203,7 @@ namespace AnimeFantasy
                 yield return Wait(1.1f);
             }
 
-            yield return view.AnimateAttack(user, skill);
+            yield return view.AnimateAttack(user, skill, targets);
 
             var results = BattleLogic.Execute(user, skill, targets);
             foreach (var r in results)

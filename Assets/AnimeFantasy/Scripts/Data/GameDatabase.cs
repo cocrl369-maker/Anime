@@ -86,12 +86,12 @@ namespace AnimeFantasy
             characters["noctis"].IsBoss = true;
 
             // ---------- Kapitel ----------
-            AddStage("Flüsterwald", 1, new Color(0.35f, 0.65f, 0.55f), new Color(0.05f, 0.15f, 0.12f), "schleim", "schleim");
-            AddStage("Tiefer Flüsterwald", 2, new Color(0.25f, 0.45f, 0.40f), new Color(0.03f, 0.10f, 0.10f), "schleim", "kobold", "schleim");
-            AddStage("Kristallhöhle", 3, new Color(0.35f, 0.45f, 0.80f), new Color(0.05f, 0.05f, 0.20f), "golem", "kobold");
-            AddStage("Fuchsschrein", 4, new Color(0.95f, 0.55f, 0.45f), new Color(0.25f, 0.05f, 0.15f), "fuchs", "kobold", "fuchs");
+            AddStage(StageTheme.Forest, "Flüsterwald", 1, new Color(0.35f, 0.65f, 0.55f), new Color(0.05f, 0.15f, 0.12f), "schleim", "schleim");
+            AddStage(StageTheme.Forest, "Tiefer Flüsterwald", 2, new Color(0.25f, 0.45f, 0.40f), new Color(0.03f, 0.10f, 0.10f), "schleim", "kobold", "schleim");
+            AddStage(StageTheme.Cave, "Kristallhöhle", 3, new Color(0.35f, 0.45f, 0.80f), new Color(0.05f, 0.05f, 0.20f), "golem", "kobold");
+            AddStage(StageTheme.Shrine, "Fuchsschrein", 4, new Color(0.95f, 0.55f, 0.45f), new Color(0.25f, 0.05f, 0.15f), "fuchs", "kobold", "fuchs");
             AddContent();
-            AddStage("Turm der Finsternis", 5, new Color(0.40f, 0.15f, 0.55f), new Color(0.02f, 0.00f, 0.06f), "noctis");
+            AddStage(StageTheme.Tower, "Turm der Finsternis", 5, new Color(0.40f, 0.15f, 0.55f), new Color(0.02f, 0.00f, 0.06f), "noctis");
         }
 
         static void AddContent()
@@ -241,9 +241,9 @@ namespace AnimeFantasy
             });
         }
 
-        static void AddStage(string name, int level, Color top, Color bottom, params string[] enemies)
+        static void AddStage(StageTheme theme, string name, int level, Color top, Color bottom, params string[] enemies)
         {
-            stages.Add(new StageData { Name = name, EnemyLevel = level, SkyTop = top, SkyBottom = bottom, Enemies = enemies });
+            stages.Add(new StageData { Theme = theme, Name = name, EnemyLevel = level, SkyTop = top, SkyBottom = bottom, Enemies = enemies });
         }
 
         public static SkillData GetSkill(string id)
